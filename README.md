@@ -39,7 +39,7 @@
 支持 `amd64` | `arm64` 架构下的干净的主流系统，具体支持的系统请参考[安装文档](https://acepanel.github.io/quickstart/install)。
 
 ```shell
-bash <(curl -sSLm 10 https://dl.acepanel.net/helper.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/kexue-aihao/panel/master/scripts/install.sh)
 ```
 
 > [!NOTE]
