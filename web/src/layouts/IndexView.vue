@@ -8,6 +8,10 @@ import SideBar from './sidebar/IndexView.vue'
 
 const themeStore = useThemeStore()
 
+const drawerWidth = computed(() =>
+  themeStore.isMobile ? `min(${themeStore.sider.width}px, 82vw)` : themeStore.sider.width,
+)
+
 // 平板自动 collapsed
 const handleResize = () => {
   const w = window.innerWidth
@@ -40,7 +44,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', handleResize))
       v-else
       :auto-focus="false"
       :show="!themeStore.sider.collapsed"
-      :width="themeStore.sider.width"
+      :width="drawerWidth"
       display-directive="show"
       placement="left"
       class="workspace-drawer"

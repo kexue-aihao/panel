@@ -183,6 +183,12 @@ function handleMenuSelect(key: string, item: MenuOption) {
       box-shadow: 0 6px 15px rgba(73, 91, 208, 0.2);
     }
 
+    .n-menu-item-content-header,
+    .n-menu-item-content-header a,
+    .n-menu-item-content-header span {
+      color: #fff !important;
+    }
+
     .n-menu-item-content__icon {
       border-color: rgba(255, 255, 255, 0.25);
       background: rgba(255, 255, 255, 0.18);
