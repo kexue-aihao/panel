@@ -1,50 +1,119 @@
-name: Release
+name: Self Build Release
+
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag to publish, such as v3.3.8
+        required: true
+        type: string
+
 permissions:
   contents: write
+
 jobs:
-  goreleaser:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
       - name: Setup Go
         uses: actions/setup-go@v7
         with:
-          cache: true
           go-version-file: go.mod
+          cache: true
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
         with:
-          run_install: |
-            - cwd: web
-          package_json_file: web/package.json
+          version: 12.8.1
+
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: 'pnpm'
+          cache: pnpm
           cache-dependency-path: web/pnpm-lock.yaml
+
       - name: Build frontend
         working-directory: web
         run: |
           cp .env.production .env
           cp config/proxy-config.example.ts config/proxy-config.ts
+          pnpm install --frozen-lockfile
           pnpm run gettext:compile
           pnpm build
-      - name: Set environment variables
-        run: |
-          echo "GOVERSION=$(go version | cut -d' ' -f3)" >> $GITHUB_ENV
-          echo "HOSTNAME=$(hostname)" >> $GITHUB_ENV
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v7
-        with:
-          version: latest
-          args: release --clean
+
+      - name: Build release archives
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.-]+)?$ ]]; then
+            echo "Invalid release tag: $RELEASE_TAG" >&2
+            exit 1
+          fi
+
+          version="${RELEASE_TAG#v}"
+          build_time="$(date -u '+%F %T UTC')"
+          commit_hash="$(git rev-parse --short HEAD)"
+          go_version="$(go version | awk '{print $3}')"
+          build_id="$GITHUB_RUN_ID"
+          build_user="$GITHUB_ACTOR"
+          build_host="$RUNNER_NAME"
+          output_dir="$GITHUB_WORKSPACE/dist"
+          mkdir -p "$output_dir"
+
+          ldflags="-s -w --extldflags '-static'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.Version=$version'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.BuildTime=$build_time'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.CommitHash=$commit_hash'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.GoVersion=$go_version'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.BuildID=$build_id'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.BuildUser=$build_user'"
+          ldflags="$ldflags -X 'github.com/acepanel/panel/v3/internal/app.BuildHost=$build_host'"
+
+          for arch in amd64 arm64; do
+            build_dir="$(mktemp -d)"
+            package_dir="$build_dir/package"
+            mkdir -p "$package_dir/storage/logs"
+
+            CGO_ENABLED=0 GOOS=linux GOARCH="$arch" go build \
+              -trimpath -buildvcs=false -ldflags "$ldflags" \
+              -o "$package_dir/ace" ./cmd/ace
+            CGO_ENABLED=0 GOOS=linux GOARCH="$arch" go build \
+              -trimpath -buildvcs=false -ldflags "$ldflags" \
+              -o "$package_dir/cli" ./cmd/cli
+
+            cp LICENSE config.example.yml "$package_dir/"
+            cp storage/logs/.gitkeep "$package_dir/storage/logs/"
+            archive="$output_dir/panel_${version}_linux_${arch}.zip"
+            (cd "$package_dir" && zip -q -r "$archive" .)
+            rm -rf "$build_dir"
+          done
+
+          cd "$output_dir"
+          sha256sum "panel_${version}_linux_amd64.zip" "panel_${version}_linux_arm64.zip" \
+            > "panel_${version}_checksums.txt"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/* --clobber
+          else
+            gh release create "$RELEASE_TAG" dist/* \
+              --target "$GITHUB_SHA" \
+              --title "$RELEASE_TAG" \
+              --generate-notes
+          fi
