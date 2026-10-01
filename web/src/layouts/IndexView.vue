@@ -23,7 +23,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', handleResize))
 </script>
 
 <template>
-  <n-layout has-sider wh-full>
+  <n-layout has-sider wh-full class="workspace-shell">
     <n-layout-sider
       v-if="!themeStore.isMobile"
       :collapsed="themeStore.sider.collapsed"
@@ -32,6 +32,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', handleResize))
       :width="themeStore.sider.width"
       bordered
       collapse-mode="width"
+      class="workspace-sider"
     >
       <side-bar />
     </n-layout-sider>
@@ -42,6 +43,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', handleResize))
       :width="themeStore.sider.width"
       display-directive="show"
       placement="left"
+      class="workspace-drawer"
       @mask-click="themeStore.setCollapsed(true)"
     >
       <n-scrollbar>
@@ -52,12 +54,12 @@ onBeforeUnmount(() => window.removeEventListener('resize', handleResize))
     <article class="flex flex-col flex-1 overflow-hidden">
       <header
         :style="`height: ${themeStore.header.height}px`"
-        class="px-4 border-b border-border-default bg-bg-elevated flex items-center lg:px-6"
+        class="workspace-header px-4 flex items-center lg:px-6"
       >
         <app-header />
       </header>
       <health-banner />
-      <section class="bg-bg-base flex flex-col flex-1 overflow-hidden">
+      <section class="workspace-content flex flex-col flex-1 overflow-hidden">
         <app-main />
       </section>
     </article>

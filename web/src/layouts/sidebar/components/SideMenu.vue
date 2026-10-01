@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { MenuInst, MenuOption } from 'naive-ui'
-import { useThemeVars } from 'naive-ui'
 import type { VNodeChild } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -9,7 +8,6 @@ import { usePermissionStore, useTabStore, useThemeStore } from '@/stores'
 import type { Meta, RouteType } from '@/types/router'
 import { isUrl, renderIcon } from '@/utils'
 
-const themeVars = useThemeVars()
 const router = useRouter()
 const currentRoute = useRoute()
 const permissionStore = usePermissionStore()
@@ -143,16 +141,52 @@ function handleMenuSelect(key: string, item: MenuOption) {
 
 <style lang="scss">
 .side-menu {
-  .n-menu-item-content__icon {
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--radius-sm);
+  padding: 10px 10px 16px;
+
+  .n-menu-item-content {
+    height: 42px;
+    margin: 3px 0;
+    border-radius: 9px;
+    transition:
+      color var(--duration-fast) var(--easing-standard),
+      background-color var(--duration-fast) var(--easing-standard);
   }
 
-  .n-menu-item-content--child-active,
+  .n-menu-item-content::before {
+    border-radius: 9px;
+  }
+
+  .n-menu-item-content__icon {
+    color: var(--color-brand);
+    border: 1px solid rgba(96, 139, 224, 0.2);
+    border-radius: 7px;
+    background: linear-gradient(145deg, rgba(37, 99, 235, 0.08), rgba(139, 92, 246, 0.1));
+  }
+
+  .n-menu-item-content:not(.n-menu-item-content--selected):hover::before {
+    background: var(--color-brand-subtle) !important;
+  }
+
+  .n-menu-item-content--child-active {
+    color: var(--color-brand);
+
+    &::before {
+      background: var(--color-brand-subtle) !important;
+    }
+  }
+
   .n-menu-item-content--selected {
+    color: #fff !important;
+
+    &::before {
+      background: var(--gradient-brand) !important;
+      box-shadow: 0 6px 15px rgba(73, 91, 208, 0.2);
+    }
+
     .n-menu-item-content__icon {
-      border-color: v-bind('themeVars.primaryColor');
-      background-color: v-bind('themeVars.primaryColor');
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
 
       i {
         color: #fff;

@@ -15,17 +15,17 @@ export const neutral = {
 
 /* === 品牌色 === */
 export const primary = {
-  50: '#e8f7ee',
-  100: '#d1f0dd',
-  200: '#a8e0c1',
-  300: '#7dd3a3',
-  400: '#36ad6a',
-  500: '#18a058',
-  600: '#0e9249',
-  700: '#0c7a43',
-  800: '#0a5e35',
-  900: '#073d23',
-  950: '#04261a',
+  50: '#eff6ff',
+  100: '#dbeafe',
+  200: '#bfdbfe',
+  300: '#93c5fd',
+  400: '#60a5fa',
+  500: '#2563eb',
+  600: '#1d4ed8',
+  700: '#1e40af',
+  800: '#1e3a8a',
+  900: '#172554',
+  950: '#0b1220',
 } as const
 
 export const success = {
@@ -162,7 +162,7 @@ export const darkSemantic: SemanticPalette = {
   brand: primary[400],
   brandHover: primary[300],
   brandPressed: primary[500],
-  brandSubtle: 'rgba(54,173,106,.14)',
+  brandSubtle: 'rgba(96,165,250,.14)',
 
   successFg: success[400],
   successBg: 'rgba(34,197,94,.12)',
@@ -195,7 +195,7 @@ export const shadowLight = {
   md: '0 4px 8px -2px rgba(15,23,42,.06),0 2px 4px -2px rgba(15,23,42,.04)',
   lg: '0 12px 20px -4px rgba(15,23,42,.08),0 4px 8px -4px rgba(15,23,42,.04)',
   xl: '0 24px 40px -8px rgba(15,23,42,.12),0 8px 16px -8px rgba(15,23,42,.06)',
-  focus: '0 0 0 3px rgba(24,160,88,.20)',
+  focus: '0 0 0 3px rgba(37,99,235,.20)',
 } as const
 
 export const shadowDark = {
@@ -205,7 +205,7 @@ export const shadowDark = {
   md: '0 4px 8px -2px rgba(0,0,0,.45),0 2px 4px -2px rgba(0,0,0,.35)',
   lg: '0 12px 20px -4px rgba(0,0,0,.55),0 4px 8px -4px rgba(0,0,0,.40)',
   xl: '0 24px 40px -8px rgba(0,0,0,.65),0 8px 16px -8px rgba(0,0,0,.45)',
-  focus: '0 0 0 3px rgba(54,173,106,.25)',
+  focus: '0 0 0 3px rgba(96,165,250,.25)',
 } as const
 
 /* === 字体 === */

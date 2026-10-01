@@ -14,6 +14,50 @@ body {
   height: 100%;
 }
 
+.workspace-shell.n-layout {
+  background-color: var(--color-bg-base) !important;
+  background-image: var(--gradient-canvas);
+}
+
+.workspace-sider.n-layout-sider {
+  background-color: var(--glass-surface) !important;
+  border-right-color: var(--glass-edge) !important;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+
+.workspace-header {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  background: var(--glass-surface);
+  border-bottom: 1px solid var(--glass-edge);
+  box-shadow: 0 4px 18px rgba(38, 57, 111, 0.035);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+
+.workspace-content {
+  background: transparent;
+}
+
+.sidebar-surface {
+  min-height: 100%;
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+
+.side-brand {
+  position: relative;
+  margin: 0 10px 6px;
+  border-bottom: 1px solid var(--glass-edge);
+  background: linear-gradient(105deg, rgba(37, 99, 235, 0.045), rgba(139, 92, 246, 0.055));
+}
+
+.workspace-drawer .n-drawer-content {
+  background: var(--glass-surface) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+
 /* router view transition */
 .fade-slide-leave-active,
 .fade-slide-enter-active {

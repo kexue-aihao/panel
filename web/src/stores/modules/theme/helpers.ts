@@ -5,7 +5,7 @@ export function defaultSettings(): Theme.Setting {
   const isMobile = themeSetting.isMobile || false
   const darkMode = themeSetting.darkMode || false
   const sider = themeSetting.sider || {
-    width: 160,
+    width: 224,
     collapsedWidth: 64,
     collapsed: false,
   }

@@ -91,5 +91,8 @@ export const useThemeStore = defineStore('theme', {
   },
   persist: {
     pick: ['isMobile', 'darkMode', 'sider', 'header', 'tab', 'locale', 'name'],
+    afterHydrate: ({ store }) => {
+      if (store.sider.width === 180) store.sider.width = 224
+    },
   },
 })

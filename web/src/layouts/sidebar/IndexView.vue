@@ -6,7 +6,7 @@ import SideMenu from './components/SideMenu.vue'
 </script>
 
 <template>
-  <div class="flex flex-col h-screen">
+  <div class="sidebar-surface flex flex-col h-screen">
     <side-logo class="flex-shrink-0" />
     <side-menu class="flex-shrink-0 flex-grow-1" />
     <side-setting class="flex-shrink-0" />

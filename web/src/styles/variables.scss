@@ -24,10 +24,20 @@
   --color-border-subtle: #f1f5f9;
 
   /* 品牌 */
-  --color-brand: #18a058;
-  --color-brand-hover: #0e9249;
-  --color-brand-pressed: #0c7a43;
-  --color-brand-subtle: #e8f7ee;
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-pressed: #1e40af;
+  --color-brand-subtle: #eff6ff;
+
+  /* 玻璃表面与蓝紫渐变 */
+  --gradient-brand: linear-gradient(118deg, #2563eb 0%, #5865e8 56%, #8b5cf6 100%);
+  --gradient-canvas:
+    linear-gradient(118deg, rgba(37, 99, 235, 0.055) 0%, transparent 38%),
+    linear-gradient(302deg, rgba(139, 92, 246, 0.055) 0%, transparent 36%);
+  --glass-surface: rgba(255, 255, 255, 0.76);
+  --glass-edge: rgba(148, 163, 184, 0.24);
+  --glass-shadow: 4px 0 24px rgba(49, 67, 123, 0.055);
+  --glass-blur: 18px;
 
   /* 状态 */
   --color-success-fg: #16a34a;
@@ -48,7 +58,7 @@
   --shadow-md: 0 4px 8px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 12px 20px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -4px rgba(15, 23, 42, 0.04);
   --shadow-xl: 0 24px 40px -8px rgba(15, 23, 42, 0.12), 0 8px 16px -8px rgba(15, 23, 42, 0.06);
-  --shadow-focus: 0 0 0 3px rgba(24, 160, 88, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.2);
 
   /* 圆角 */
   --radius-sm: 4px;
@@ -96,10 +106,18 @@ html.dark {
   --color-border-strong: #374151;
   --color-border-subtle: #151b27;
 
-  --color-brand: #36ad6a;
-  --color-brand-hover: #7dd3a3;
-  --color-brand-pressed: #18a058;
-  --color-brand-subtle: rgba(54, 173, 106, 0.14);
+  --color-brand: #60a5fa;
+  --color-brand-hover: #93c5fd;
+  --color-brand-pressed: #3b82f6;
+  --color-brand-subtle: rgba(96, 165, 250, 0.14);
+
+  --gradient-brand: linear-gradient(118deg, #3479e8 0%, #5968dc 56%, #7656c9 100%);
+  --gradient-canvas:
+    linear-gradient(118deg, rgba(37, 99, 235, 0.13) 0%, transparent 40%),
+    linear-gradient(302deg, rgba(139, 92, 246, 0.11) 0%, transparent 38%);
+  --glass-surface: rgba(13, 20, 34, 0.82);
+  --glass-edge: rgba(148, 163, 184, 0.13);
+  --glass-shadow: 4px 0 28px rgba(0, 0, 0, 0.2);
 
   --color-success-fg: #4ade80;
   --color-success-bg: rgba(34, 197, 94, 0.12);
@@ -117,5 +135,5 @@ html.dark {
   --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 12px 20px -4px rgba(0, 0, 0, 0.55), 0 4px 8px -4px rgba(0, 0, 0, 0.4);
   --shadow-xl: 0 24px 40px -8px rgba(0, 0, 0, 0.65), 0 8px 16px -8px rgba(0, 0, 0, 0.45);
-  --shadow-focus: 0 0 0 3px rgba(54, 173, 106, 0.25);
+  --shadow-focus: 0 0 0 3px rgba(96, 165, 250, 0.25);
 }
