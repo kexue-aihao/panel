@@ -8,7 +8,6 @@ import (
 	"github.com/libtnb/utils/hash"
 	"github.com/pquerna/otp"
 	"github.com/pquerna/otp/totp"
-	"github.com/spf13/cast"
 	"gorm.io/gorm"
 
 	"github.com/acepanel/panel/v3/internal/biz"
@@ -167,9 +166,14 @@ func (r *userRepo) IsTwoFA(username string) (bool, error) {
 }
 
 func (r *userRepo) GenerateTwoFA(id uint) (image.Image, string, string, error) {
+	user, err := r.Get(id)
+	if err != nil {
+		return nil, "", "", err
+	}
+
 	key, err := totp.Generate(totp.GenerateOpts{
 		Issuer:      "AcePanel",
-		AccountName: cast.ToString(id),
+		AccountName: user.Username,
 		SecretSize:  32,
 		Algorithm:   otp.AlgorithmSHA1,
 	})
